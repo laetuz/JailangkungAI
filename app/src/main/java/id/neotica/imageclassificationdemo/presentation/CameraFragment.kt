@@ -12,9 +12,16 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.mlkit.vision.MlKitAnalyzer
+import androidx.camera.view.CameraController.COORDINATE_SYSTEM_VIEW_REFERENCED
+import androidx.camera.view.LifecycleCameraController
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.mlkit.vision.barcode.BarcodeScanner
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.barcode.common.Barcode
 import id.neotica.imageclassificationdemo.R
 import id.neotica.imageclassificationdemo.createCustomTempFile
 import id.neotica.imageclassificationdemo.databinding.FragmentCameraBinding
@@ -25,13 +32,21 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
 
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var imageCapture: ImageCapture? = null
+    private lateinit var resultQr: String
+
+    private lateinit var barcodeScanner: BarcodeScanner
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCameraBinding.bind(view)
 
-        setupUI()
-        startCamera()
+        val args = CameraFragmentArgs.fromBundle(arguments as Bundle)
+        if (args.type == "scan") {
+            qrAnalyzer()
+        } else {
+            setupUI()
+            startCamera()
+        }
     }
 
     override fun onStart() {
@@ -50,7 +65,7 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
             switchCamera.setOnClickListener {
                 cameraSelector =
                     if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA
-                else CameraSelector.DEFAULT_BACK_CAMERA
+                    else CameraSelector.DEFAULT_BACK_CAMERA
                 startCamera()
             }
             captureImage.setOnClickListener { takePhoto() }
@@ -90,6 +105,35 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
+    private fun qrAnalyzer() {
+        with(binding) {
+            captureImage.visibility = View.GONE
+            switchCamera.visibility = View.GONE
+        }
+        val options = BarcodeScannerOptions.Builder()
+            .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
+            .build()
+
+        barcodeScanner = BarcodeScanning.getClient(options)
+
+        val analyzer = MlKitAnalyzer(
+            listOf(barcodeScanner),
+            COORDINATE_SYSTEM_VIEW_REFERENCED,
+            ContextCompat.getMainExecutor(requireContext())
+        ) { result: MlKitAnalyzer.Result? ->
+            showResult(result)
+            Log.d("neoBarcode", result.toString())
+        }
+
+        val cameraController = LifecycleCameraController(requireContext())
+        cameraController.setImageAnalysisAnalyzer(
+            ContextCompat.getMainExecutor(requireContext()), analyzer
+        )
+
+        cameraController.bindToLifecycle(this)
+        binding.viewFinder.controller = cameraController
+    }
+
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
 
@@ -105,7 +149,8 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
                     val intent = Intent()
                     intent.putExtra(EXTRA_CAMERAX_IMAGE, output.savedUri.toString())
                     requireActivity().setResult(CAMERAX_RESULT, intent)
-                    val action = CameraFragmentDirections.actionCameraFragmentToMainFragment(output.savedUri.toString())
+                    val action =
+                        CameraFragmentDirections.actionCameraFragmentToMainFragment(output.savedUri.toString())
                     findNavController().navigate(action)
                 }
 
@@ -119,6 +164,21 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
                 }
             }
         )
+    }
+
+    private fun showResult(result: MlKitAnalyzer.Result?) {
+        val barcodeResults = result?.getValue(barcodeScanner)
+        if ((barcodeResults != null) &&
+            (barcodeResults.size != 0) &&
+            (barcodeResults.first() != null)
+        ) {
+            val barcode = barcodeResults[0]
+            binding.tvResult.text = barcode.rawValue
+            resultQr = barcode.rawValue.toString()
+        } else {
+            binding.tvResult.text = ""
+            resultQr = ""
+        }
     }
 
     private val orientationEventListener by lazy {

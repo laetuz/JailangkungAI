@@ -24,5 +24,9 @@
         <action
             android:id="@+id/action_cameraFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

@@ -74,7 +74,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
         showImagePlaceholder()
         with(binding) {
-            cameraXButton.setOnClickListener { startCameraX() }
+            cameraXButton.setOnClickListener { startCameraX("normal") }
             galleryButton.setOnClickListener { startGallery() }
             cameraButton.setOnClickListener { startCamera() }
             uploadButton.setOnClickListener { uploadImage() }
@@ -84,10 +84,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 } else showToast("Uri is expected")
             }
             btnTranslate.setOnClickListener {
-                var result: String = resultTextView.text.toString()
+                val result: String = resultTextView.text.toString()
                 viewModel.translateText(result)
                 Log.d("neotica", result)
             }
+            btnQr.setOnClickListener { startCameraX("scan") }
         }
     }
 
@@ -157,8 +158,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun startCameraX() {
-        val action = MainFragmentDirections.actionMainFragmentToCameraFragment()
+    private fun startCameraX(type: String) {
+        val action = MainFragmentDirections.actionMainFragmentToCameraFragment(type)
         findNavController().navigate(action)
     }
 
