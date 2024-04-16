@@ -1,7 +1,7 @@
 package id.neotica.imageclassificationdemo.data
 
 import id.neotica.imageclassificationdemo.data.KtorConfig.BASE_URL
-import id.neotica.imageclassificationdemo.data.response.ImageResponse
+import id.neotica.domain.model.ImageResponse
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData

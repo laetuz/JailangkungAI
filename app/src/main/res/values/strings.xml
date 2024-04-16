@@ -6,4 +6,8 @@
     <string name="gallery">Gallery</string>
     <string name="upload">Upload</string>
     <string name="empty_image_warning">Please input picture.</string>
+
+    <!-- Button -->
+    <string name="button_api">Analyze with API</string>
+    <string name="button_ml_kit">Analyze with ML Kit</string>
 </resources>

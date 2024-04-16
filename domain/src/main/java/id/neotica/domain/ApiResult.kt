@@ -1,4 +1,4 @@
-package id.neotica.imageclassificationdemo.data.network
+package id.neotica.domain
 
 sealed class ApiResult<T>(
     val data: T? = null,
