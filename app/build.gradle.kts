@@ -81,4 +81,7 @@ dependencies {
     val koinVersion = "3.3.2"
     implementation ("io.insert-koin:koin-core:$koinVersion")
     implementation("io.insert-koin:koin-android:$koinVersion")
+
+    //MLKit
+    implementation("com.google.mlkit:text-recognition:16.0.0") //Text recognition
 }

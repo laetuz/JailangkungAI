@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import id.neotica.imageclassificationdemo.R
 import id.neotica.domain.ApiResult
@@ -22,6 +23,7 @@ import id.neotica.imageclassificationdemo.getImageUri
 import id.neotica.imageclassificationdemo.reduceFileImage
 import id.neotica.imageclassificationdemo.repeatCollectionOnCreated
 import id.neotica.imageclassificationdemo.uriToFile
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -55,23 +57,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         _binding = FragmentMainBinding.bind(view)
 
         setupUI()
-
+        observeViewModel()
         repeatCollectionOnCreated {
             val args = MainFragmentArgs.fromBundle(arguments as Bundle)
             if (args.result != "Null") {
                 currentImageUri = args.result?.toUri()
                 Toast.makeText(context, "result: ${args.result}", Toast.LENGTH_SHORT).show()
                 showImage()
-            }
-            viewModel.image.collect() {
-                when(it) {
-                    is ApiResult.Loading -> binding.resultTextView.text = "Loading"
-                    is ApiResult.Success -> {
-                        binding.resultTextView.text = it.data?.data?.result
-                    }
-                    is ApiResult.Error -> binding.resultTextView.text = "Error"
-                    null -> {}
-                }
             }
         }
     }
@@ -80,14 +72,52 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
         }
+        showImagePlaceholder()
         with(binding) {
             cameraXButton.setOnClickListener { startCameraX() }
             galleryButton.setOnClickListener { startGallery() }
             cameraButton.setOnClickListener { startCamera() }
             uploadButton.setOnClickListener { uploadImage() }
+            mlButton.setOnClickListener {
+                if (currentImageUri != null) {
+                    viewModel.analyzeImage(uri = currentImageUri!!, context = requireContext())
+
+                } else showToast("Uri is expected")
+            }
         }
+    }
 
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            viewModel.image.collect() {
+                when (it) {
+                    is ApiResult.Loading -> showLoading(true)
+                    is ApiResult.Success -> {
+                        showLoading(false)
+                        binding.resultTextView.text = it.data?.data?.result
+                    }
 
+                    is ApiResult.Error -> {
+                        showLoading(false)
+                        binding.resultTextView.text = "Error"
+                    }
+
+                    null -> {}
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.visionText.collect() {
+                binding.resultTextView.text = it
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.isLoading.collect {
+                if (it) {
+                    binding.progressIndicator.visibility = View.VISIBLE
+                } else binding.progressIndicator.visibility = View.GONE
+            }
+        }
     }
 
     private fun startGallery() {
@@ -128,6 +158,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             Log.d("Image URI", "showImage: $it")
             binding.previewImageView.setImageURI(it)
         }
+        showImagePlaceholder()
+    }
+
+    private fun showImagePlaceholder() {
+        with(binding) {
+            if (currentImageUri != null) {
+                previewImagePlaceholder.visibility = View.GONE
+            } else {
+                previewImagePlaceholder.visibility = View.VISIBLE
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -137,7 +178,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         currentImageUri?.let {
             val imageFile = uriToFile(it, requireContext()).reduceFileImage()
             Log.d("Image Classification File", "showImage: ${imageFile.path}")
-            showLoading(true)
+            //showLoading(true)
 
             val fileBytes = imageFile.readBytes()
             viewModel.getUploadImage(fileBytes)
