@@ -16,7 +16,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import id.neotica.imageclassificationdemo.R
-import id.neotica.imageclassificationdemo.data.network.ApiResult
+import id.neotica.domain.ApiResult
 import id.neotica.imageclassificationdemo.databinding.FragmentMainBinding
 import id.neotica.imageclassificationdemo.getImageUri
 import id.neotica.imageclassificationdemo.reduceFileImage

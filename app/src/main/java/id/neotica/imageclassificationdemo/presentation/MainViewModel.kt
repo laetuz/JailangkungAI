@@ -2,9 +2,9 @@ package id.neotica.imageclassificationdemo.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import id.neotica.imageclassificationdemo.data.network.ApiResult
-import id.neotica.imageclassificationdemo.data.response.ImageResponse
-import id.neotica.imageclassificationdemo.domain.MainRepositoryImpl
+import id.neotica.domain.ApiResult
+import id.neotica.domain.model.ImageResponse
+import id.neotica.imageclassificationdemo.repository.MainRepositoryImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

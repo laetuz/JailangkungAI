@@ -2,8 +2,9 @@ package id.neotica.imageclassificationdemo.di
 
 import id.neotica.imageclassificationdemo.data.KtorConfig.BASE_URL
 import id.neotica.imageclassificationdemo.data.MainService
-import id.neotica.imageclassificationdemo.domain.MainRepository
-import id.neotica.imageclassificationdemo.domain.MainRepositoryImpl
+import id.neotica.domain.MainRepository
+import id.neotica.imageclassificationdemo.repository.MainRepositoryImpl
+import id.neotica.imageclassificationdemo.repository.MainRepositoryKtorImpl
 import id.neotica.imageclassificationdemo.presentation.MainViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,6 +21,7 @@ val viewModelModules = module {
 
 val repoModules = module {
     singleOf(::MainRepositoryImpl) bind MainRepository::class
+    singleOf(::MainRepositoryKtorImpl) bind MainRepository::class
 }
 
 val networkModule = module {

@@ -1,6 +1,6 @@
 package id.neotica.imageclassificationdemo.data
 
-import id.neotica.imageclassificationdemo.data.response.ImageResponse
+import id.neotica.domain.model.ImageResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Multipart

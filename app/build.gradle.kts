@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlinx-serialization")
 }
+//apply(from = "")
 
 android {
     namespace = "id.neotica.imageclassificationdemo"
@@ -44,8 +45,9 @@ android {
 
 dependencies {
     val cameraxVersion = "1.3.0"
+    implementation(project(":domain"))
 
-    implementation(libs.androidx.core.ktx)
+    api(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
