@@ -22,8 +22,15 @@ android {
     }
 
     buildTypes {
+        /*debug {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }*/
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -84,4 +91,5 @@ dependencies {
 
     //MLKit
     implementation("com.google.mlkit:text-recognition:16.0.0") //Text recognition
+    implementation("com.google.mlkit:translate:17.0.1") //Translate
 }

@@ -81,8 +81,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             mlButton.setOnClickListener {
                 if (currentImageUri != null) {
                     viewModel.analyzeImage(uri = currentImageUri!!, context = requireContext())
-
                 } else showToast("Uri is expected")
+            }
+            btnTranslate.setOnClickListener {
+                var result: String = resultTextView.text.toString()
+                viewModel.translateText(result)
+                Log.d("neotica", result)
             }
         }
     }
@@ -116,6 +120,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 if (it) {
                     binding.progressIndicator.visibility = View.VISIBLE
                 } else binding.progressIndicator.visibility = View.GONE
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.translation.collect {
+                binding.resultTextView.text = it
             }
         }
     }
@@ -178,7 +187,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         currentImageUri?.let {
             val imageFile = uriToFile(it, requireContext()).reduceFileImage()
             Log.d("Image Classification File", "showImage: ${imageFile.path}")
-            //showLoading(true)
 
             val fileBytes = imageFile.readBytes()
             viewModel.getUploadImage(fileBytes)

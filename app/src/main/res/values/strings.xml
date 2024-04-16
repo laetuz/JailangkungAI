@@ -10,4 +10,5 @@
     <!-- Button -->
     <string name="button_api">Analyze with API</string>
     <string name="button_ml_kit">Analyze with ML Kit</string>
+    <string name="translate">Translate</string>
 </resources>
