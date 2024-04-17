@@ -8,15 +8,19 @@ import android.view.Surface
 import android.view.View
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
+import androidx.camera.core.resolutionselector.AspectRatioStrategy
+import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.mlkit.vision.MlKitAnalyzer
 import androidx.camera.view.CameraController.COORDINATE_SYSTEM_VIEW_REFERENCED
 import androidx.camera.view.LifecycleCameraController
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -24,7 +28,13 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import id.neotica.imageclassificationdemo.R
 import id.neotica.imageclassificationdemo.createCustomTempFile
+import id.neotica.imageclassificationdemo.data.local.ImageClassifierHelper
 import id.neotica.imageclassificationdemo.databinding.FragmentCameraBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.tensorflow.lite.task.vision.classifier.Classifications
+import java.text.NumberFormat
+import java.util.concurrent.Executors
 
 class CameraFragment : Fragment(R.layout.fragment_camera) {
     private var _binding: FragmentCameraBinding? = null
@@ -36,16 +46,21 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
 
     private lateinit var barcodeScanner: BarcodeScanner
 
+    //tfLite
+    private lateinit var imageClassifierHelper: ImageClassifierHelper
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCameraBinding.bind(view)
 
         val args = CameraFragmentArgs.fromBundle(arguments as Bundle)
-        if (args.type == "scan") {
-            qrAnalyzer()
-        } else {
-            setupUI()
-            startCamera()
+        when(args.type) {
+            "scan" -> qrAnalyzer()
+            "tfLite" -> tfLiteCamera()
+            else -> {
+                setupUI()
+                startCamera()
+            }
         }
     }
 
@@ -132,6 +147,82 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
 
         cameraController.bindToLifecycle(this)
         binding.viewFinder.controller = cameraController
+    }
+
+    private fun tfLiteCamera() {
+        Log.d("neolog", "tfliteCam")
+
+        imageClassifierHelper = ImageClassifierHelper(
+            context = requireContext(),
+            classifierListener = object : ImageClassifierHelper.ClassifierListener {
+                override fun onError(error: String) {
+                    lifecycleScope.launch {
+                        binding.tvResult.text = error
+                        Log.d("neolog", "lifecycle: $error")
+                    }
+                }
+
+                override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
+
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                        binding.tvInference.text = inferenceTime.toString()
+
+                        results?.let {
+                            if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
+                                val sortedCategories =
+                                    it[0].categories.sortedByDescending { it?.score }
+                                val displayResult =
+                                    sortedCategories.joinToString("\n") { category ->
+                                        "${category.label} " + NumberFormat.getPercentInstance()
+                                            .format(category.score).trim()
+                                    }
+                                binding.tvResult.text = displayResult
+                            } else {
+                                binding.tvResult.text = ""
+                            }
+                        }
+                    }
+
+
+                }
+            }
+        )
+
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+
+        cameraProviderFuture.addListener({
+            Log.d("neolog", "cameraProvider")
+            val resolutionSelector = ResolutionSelector.Builder()
+                .setAspectRatioStrategy(AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY)
+                .build()
+            val imageAnalyzer = ImageAnalysis.Builder()
+                .setResolutionSelector(resolutionSelector)
+                .setTargetRotation(binding.viewFinder.display.rotation)
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
+                .build()
+            imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) {
+               // Log.d("neolog", "imageAnalyzer: $it")
+                imageClassifierHelper.classifyImage(it)
+            }
+
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            val preview = Preview.Builder().build().also {
+                it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+            }
+            try {
+                Log.d("neolog", "try imageAnalyzer")
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(
+                    this,
+                    cameraSelector,
+                    preview,
+                    imageAnalyzer
+                )
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), e.message.toString(), Toast.LENGTH_SHORT).show()
+            }
+        }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     private fun takePhoto() {

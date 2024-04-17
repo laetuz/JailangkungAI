@@ -89,6 +89,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 Log.d("neotica", result)
             }
             btnQr.setOnClickListener { startCameraX("scan") }
+            btnTflite.setOnClickListener { startCameraX("tfLite") }
         }
     }
 

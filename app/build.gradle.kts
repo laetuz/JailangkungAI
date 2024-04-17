@@ -40,6 +40,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        mlModelBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -51,6 +52,11 @@ android {
 }
 
 dependencies {
+    //tfLite
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
+    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
+
     val cameraxVersion = "1.3.0"
     implementation(project(":domain"))
 

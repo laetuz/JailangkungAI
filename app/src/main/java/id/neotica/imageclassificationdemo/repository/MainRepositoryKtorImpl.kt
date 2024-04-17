@@ -1,6 +1,6 @@
 package id.neotica.imageclassificationdemo.repository
 
-import id.neotica.imageclassificationdemo.data.ApiService
+import id.neotica.imageclassificationdemo.data.network.ApiService
 import id.neotica.domain.ApiResult
 import id.neotica.domain.model.ImageResponse
 import id.neotica.domain.MainRepository

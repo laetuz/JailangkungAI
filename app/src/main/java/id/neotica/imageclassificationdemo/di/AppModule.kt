@@ -1,7 +1,7 @@
 package id.neotica.imageclassificationdemo.di
 
-import id.neotica.imageclassificationdemo.data.KtorConfig.BASE_URL
-import id.neotica.imageclassificationdemo.data.MainService
+import id.neotica.imageclassificationdemo.data.network.KtorConfig.BASE_URL
+import id.neotica.imageclassificationdemo.data.network.MainService
 import id.neotica.domain.MainRepository
 import id.neotica.imageclassificationdemo.repository.MainRepositoryImpl
 import id.neotica.imageclassificationdemo.repository.MainRepositoryKtorImpl
