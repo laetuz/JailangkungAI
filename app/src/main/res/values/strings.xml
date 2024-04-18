@@ -8,10 +8,11 @@
     <string name="empty_image_warning">Please input picture.</string>
 
     <string name="image_classifier_failed">Image failed to be classified.</string>
+    <string name="error">Error: Dumbfounded.</string>
 
     <!-- Button -->
     <string name="button_api">Analyze with API</string>
-    <string name="button_ml_kit">Analyze with ML Kit</string>
+    <string name="button_ml_kit">Analyze words</string>
     <string name="translate">Translate</string>
     <string name="qr_scanner">QR Scanner</string>
     <string name="tflite_camera">TfLite Camera</string>

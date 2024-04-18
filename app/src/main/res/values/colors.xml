@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="neotica_main">#5D6EE0</color>
+    <color name="neotica_secondary">#232850</color>
+
+    <color name="neotica_main_transparent">#885D6EE0</color>
+    <color name="neotica_secondary_transparent">#7E232850</color>
 </resources>

@@ -4,13 +4,13 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -62,8 +62,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             val args = MainFragmentArgs.fromBundle(arguments as Bundle)
             if (args.result != "Null") {
                 currentImageUri = args.result?.toUri()
-                Toast.makeText(context, "result: ${args.result}", Toast.LENGTH_SHORT).show()
                 showImage()
+            } else {
+                clearImage()
             }
         }
     }
@@ -72,21 +73,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
         }
-        showImagePlaceholder()
         with(binding) {
             cameraXButton.setOnClickListener { startCameraX("normal") }
             galleryButton.setOnClickListener { startGallery() }
             cameraButton.setOnClickListener { startCamera() }
             uploadButton.setOnClickListener { uploadImage() }
             mlButton.setOnClickListener {
-                if (currentImageUri != null) {
+                uriChecker {
                     viewModel.analyzeImage(uri = currentImageUri!!, context = requireContext())
-                } else showToast("Uri is expected")
+                }
             }
             btnTranslate.setOnClickListener {
-                val result: String = resultTextView.text.toString()
-                viewModel.translateText(result)
-                Log.d("neotica", result)
+                uriChecker {
+                    val result: String = resultTextView.text.toString()
+                    viewModel.translateText(result)
+                    Log.d("neotica", result)
+                }
             }
             btnQr.setOnClickListener { startCameraX("scan") }
             btnTflite.setOnClickListener { startCameraX("tfLite") }
@@ -105,7 +107,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
                     is ApiResult.Error -> {
                         showLoading(false)
-                        binding.resultTextView.text = "Error"
+                        binding.resultTextView.text = getString(R.string.error)
                     }
 
                     null -> {}
@@ -132,6 +134,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun startGallery() {
+        clearImage()
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 
@@ -149,6 +152,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun startCamera() {
         currentImageUri = getImageUri(requireContext())
         launcherIntentCamera.launch(currentImageUri)
+        Log.d("neolog", "uri: $currentImageUri")
     }
 
     private val launcherIntentCamera = registerForActivityResult(
@@ -156,10 +160,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     ) { isSuccess ->
         if (isSuccess) {
             showImage()
+            Log.d("neolog", "ifSuccess: $currentImageUri")
         }
     }
 
     private fun startCameraX(type: String) {
+        clearImage()
         val action = MainFragmentDirections.actionMainFragmentToCameraFragment(type)
         findNavController().navigate(action)
     }
@@ -169,33 +175,38 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             Log.d("Image URI", "showImage: $it")
             binding.previewImageView.setImageURI(it)
         }
-        showImagePlaceholder()
     }
 
-    private fun showImagePlaceholder() {
-        with(binding) {
-            if (currentImageUri != null) {
-                previewImagePlaceholder.visibility = View.GONE
-            } else {
-                previewImagePlaceholder.visibility = View.VISIBLE
+    private fun clearImage() {
+        currentImageUri = null
+        binding.previewImageView.setImageResource(R.drawable.ic_place_holder)
+    }
+
+    private fun uploadImage() {
+        uriChecker {
+            currentImageUri?.let { uri ->
+                val imageFile = uriToFile(uri, requireContext())
+                val reducedImageFile = if (Build.VERSION.SDK_INT >= VERSION_CODES.Q) {
+                    imageFile.reduceFileImage()
+                } else {
+                    imageFile
+                }
+                Log.d("Image Classification File", "showImage: ${reducedImageFile.path}")
+
+                val fileBytes = reducedImageFile.readBytes()
+                viewModel.getUploadImage(fileBytes)
+
+                Log.d("neotica", "$fileBytes")
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
-    private fun uploadImage() {
-
-
-        currentImageUri?.let {
-            val imageFile = uriToFile(it, requireContext()).reduceFileImage()
-            Log.d("Image Classification File", "showImage: ${imageFile.path}")
-
-            val fileBytes = imageFile.readBytes()
-            viewModel.getUploadImage(fileBytes)
-
-            Log.d("neotica", "$fileBytes")
-
-        } ?: showToast(getString(R.string.empty_image_warning))
+    private fun uriChecker(func: () -> Unit) {
+        if (currentImageUri == null) {
+            showToast("Uri is expected")
+        } else {
+            func()
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {

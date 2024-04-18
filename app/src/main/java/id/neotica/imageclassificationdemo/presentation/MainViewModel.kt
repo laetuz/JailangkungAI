@@ -65,6 +65,7 @@ class MainViewModel(private val repo: MainRepositoryImpl): ViewModel() {
     }
 
     fun translateText(detectedText: String) {
+        _isLoading.value = true
         val options = TranslatorOptions.Builder()
             .setSourceLanguage(TranslateLanguage.ENGLISH)
             .setTargetLanguage(TranslateLanguage.INDONESIAN)
@@ -88,7 +89,6 @@ class MainViewModel(private val repo: MainRepositoryImpl): ViewModel() {
                 isLoading.value = false
 
                 _translation.value = exception.message.toString()
-                isLoading.value = false
             }
     }
 }

@@ -1,6 +1,5 @@
 package id.neotica.imageclassificationdemo.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.OrientationEventListener
@@ -30,7 +29,6 @@ import id.neotica.imageclassificationdemo.R
 import id.neotica.imageclassificationdemo.createCustomTempFile
 import id.neotica.imageclassificationdemo.data.local.ImageClassifierHelper
 import id.neotica.imageclassificationdemo.databinding.FragmentCameraBinding
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.text.NumberFormat
@@ -56,7 +54,10 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
         val args = CameraFragmentArgs.fromBundle(arguments as Bundle)
         when(args.type) {
             "scan" -> qrAnalyzer()
-            "tfLite" -> tfLiteCamera()
+            "tfLite" -> {
+                setupUiTfLite()
+                tfLiteCamera()
+            }
             else -> {
                 setupUI()
                 startCamera()
@@ -149,6 +150,18 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
         binding.viewFinder.controller = cameraController
     }
 
+    private fun setupUiTfLite() {
+        with(binding) {
+            switchCamera.setOnClickListener {
+                cameraSelector =
+                    if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA
+                    else CameraSelector.DEFAULT_BACK_CAMERA
+                tfLiteCamera()
+            }
+            captureImage.setOnClickListener { takePhoto() }
+        }
+    }
+
     private fun tfLiteCamera() {
         Log.d("neolog", "tfliteCam")
 
@@ -156,7 +169,7 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
             context = requireContext(),
             classifierListener = object : ImageClassifierHelper.ClassifierListener {
                 override fun onError(error: String) {
-                    lifecycleScope.launch {
+                    viewLifecycleOwner.lifecycleScope.launch {
                         binding.tvResult.text = error
                         Log.d("neolog", "lifecycle: $error")
                     }
@@ -164,7 +177,7 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
 
                 override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
 
-                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    viewLifecycleOwner.lifecycleScope.launch {
                         binding.tvInference.text = inferenceTime.toString()
 
                         results?.let {
@@ -182,8 +195,6 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
                             }
                         }
                     }
-
-
                 }
             }
         )
@@ -202,9 +213,10 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
                 .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                 .build()
             imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) {
-               // Log.d("neolog", "imageAnalyzer: $it")
                 imageClassifierHelper.classifyImage(it)
             }
+
+            imageCapture = ImageCapture.Builder().build()
 
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             val preview = Preview.Builder().build().also {
@@ -217,15 +229,17 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
                     this,
                     cameraSelector,
                     preview,
-                    imageAnalyzer
+                    imageAnalyzer,
                 )
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), e.message.toString(), Toast.LENGTH_SHORT).show()
+                Log.d("neolog", e.message.toString())
             }
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     private fun takePhoto() {
+        Log.d("neolog", "takePhoto")
         val imageCapture = imageCapture ?: return
 
         val photoFile = createCustomTempFile(requireContext().applicationContext)
@@ -237,9 +251,6 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val intent = Intent()
-                    intent.putExtra(EXTRA_CAMERAX_IMAGE, output.savedUri.toString())
-                    requireActivity().setResult(CAMERAX_RESULT, intent)
                     val action =
                         CameraFragmentDirections.actionCameraFragmentToMainFragment(output.savedUri.toString())
                     findNavController().navigate(action)
@@ -292,9 +303,7 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
     }
 
     companion object {
-        private const val TAG = "CameraActivity"
-        const val EXTRA_CAMERAX_IMAGE = "CameraX Image"
-        const val CAMERAX_RESULT = 200
+        private const val TAG = "CameraFragment"
     }
 
     override fun onDestroyView() {
