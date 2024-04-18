@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@android:color/transparent" /> <!-- Fill color -->
+    <stroke
+        android:color="@color/neotica_secondary_transparent"
+        android:width="5dp" /> <!-- Border color and width -->
+    <corners android:radius="15dp" /> <!-- Inside radius for curved corners -->
+</shape>

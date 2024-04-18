@@ -91,7 +91,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }
             }
             btnQr.setOnClickListener { startCameraX("scan") }
-            btnTflite.setOnClickListener { startCameraX("tfLite") }
+            btnTflite.setOnClickListener { startTFLiteCamera() }
         }
     }
 
@@ -167,6 +167,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun startCameraX(type: String) {
         clearImage()
         val action = MainFragmentDirections.actionMainFragmentToCameraFragment(type)
+        findNavController().navigate(action)
+    }
+
+    private fun startTFLiteCamera() {
+        val action = MainFragmentDirections.actionMainFragmentToTFLiteCameraFragment()
         findNavController().navigate(action)
     }
 
