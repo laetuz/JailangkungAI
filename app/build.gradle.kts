@@ -22,8 +22,15 @@ android {
     }
 
     buildTypes {
+        /*debug {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }*/
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -33,6 +40,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        mlModelBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -44,6 +52,11 @@ android {
 }
 
 dependencies {
+    //tfLite
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
+    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
+
     val cameraxVersion = "1.3.0"
     implementation(project(":domain"))
 
@@ -84,4 +97,9 @@ dependencies {
 
     //MLKit
     implementation("com.google.mlkit:text-recognition:16.0.0") //Text recognition
+    implementation("com.google.mlkit:translate:17.0.1") //Translate
+
+    //Barcode Scanning
+    implementation("com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.0")
+    implementation("androidx.camera:camera-mlkit-vision:1.4.0-alpha02")
 }

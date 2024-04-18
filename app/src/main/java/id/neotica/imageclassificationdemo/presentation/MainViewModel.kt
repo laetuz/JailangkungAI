@@ -4,6 +4,10 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -34,6 +38,10 @@ class MainViewModel(private val repo: MainRepositoryImpl): ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading
 
+    //MLKit Translate
+    private val _translation = MutableStateFlow("")
+    val translation = _translation
+
     fun getUploadImage(image: ByteArray) = viewModelScope.launch {
         repo.uploadImage(image)
             .collect {
@@ -42,17 +50,45 @@ class MainViewModel(private val repo: MainRepositoryImpl): ViewModel() {
     }
 
     fun analyzeImage(uri: Uri, context: Context) {
-        isLoading.value = true
+        _isLoading.value = true
         val textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
         val inputImage = InputImage.fromFilePath(context, uri)
         textRecognizer.process(inputImage)
             .addOnSuccessListener { text: Text ->
-                isLoading.value = false
+                _isLoading.value = false
                 _visionText.value = text.text
             }
             .addOnFailureListener {
-                isLoading.value = false
+                _isLoading.value = false
                 _visionText.value = it.message.toString()
+            }
+    }
+
+    fun translateText(detectedText: String) {
+        _isLoading.value = true
+        val options = TranslatorOptions.Builder()
+            .setSourceLanguage(TranslateLanguage.ENGLISH)
+            .setTargetLanguage(TranslateLanguage.INDONESIAN)
+            .build()
+        val idToEn = Translation.getClient(options)
+
+        val conditions = DownloadConditions.Builder()
+            .requireWifi()
+            .build()
+        idToEn.downloadModelIfNeeded(conditions)
+            .addOnSuccessListener {
+                idToEn.translate(detectedText)
+                    .addOnSuccessListener { translatedText ->
+                        isLoading.value = false
+
+                        _translation.value = translatedText.toString()
+                        idToEn.close()
+                    }
+            }
+            .addOnFailureListener { exception ->
+                isLoading.value = false
+
+                _translation.value = exception.message.toString()
             }
     }
 }
