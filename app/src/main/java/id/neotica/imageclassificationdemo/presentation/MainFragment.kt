@@ -93,6 +93,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             btnQr.setOnClickListener { startCameraX("scan") }
             btnTflite.setOnClickListener { startTFLiteCamera() }
             btnTfliteGms.setOnClickListener { startTfLiteGMSCamera() }
+            btnObjectDetector.setOnClickListener { startObjectDetectorCamera() }
         }
     }
 
@@ -178,6 +179,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun startTfLiteGMSCamera() {
         val action = MainFragmentDirections.actionMainFragmentToTFLiteGmsCameraFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun startObjectDetectorCamera() {
+        val action = MainFragmentDirections.actionMainFragmentToObjectDetectorCameraFragment()
         findNavController().navigate(action)
     }
 

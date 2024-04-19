@@ -18,4 +18,5 @@
     <string name="qr_scanner">QR Scanner</string>
     <string name="tflite_camera">TfLite Camera</string>
     <string name="tflite_gms">tflite GMS</string>
+    <string name="object_detector">Object Detector</string>
 </resources>

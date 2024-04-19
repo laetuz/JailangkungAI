@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_mainFragment_to_TFLiteGmsCameraFragment"
             app:destination="@id/TFLiteGmsCameraFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_objectDetectorCameraFragment"
+            app:destination="@id/objectDetectorCameraFragment" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -43,4 +46,8 @@
         android:id="@+id/TFLiteGmsCameraFragment"
         android:name="id.neotica.imageclassificationdemo.presentation.camera.TFLiteGmsCameraFragment"
         android:label="TFLiteGmsCameraFragment" />
+    <fragment
+        android:id="@+id/objectDetectorCameraFragment"
+        android:name="id.neotica.imageclassificationdemo.presentation.camera.ObjectDetectorCameraFragment"
+        android:label="ObjectDetectorCameraFragment" />
 </navigation>
