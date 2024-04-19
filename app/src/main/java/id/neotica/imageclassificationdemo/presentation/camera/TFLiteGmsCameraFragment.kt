@@ -115,7 +115,9 @@ class TFLiteGmsCameraFragment : Fragment(R.layout.fragment_tfl_camera) {
                 .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                 .build()
             imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) {
-                imageClassifierHelper.classifyImage(it)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    imageClassifierHelper.classifyImage(it)
+                }
             }
 
             imageCapture = ImageCapture.Builder().build()

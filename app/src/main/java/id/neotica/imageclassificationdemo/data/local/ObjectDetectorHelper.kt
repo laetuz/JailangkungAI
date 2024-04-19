@@ -19,7 +19,7 @@ import org.tensorflow.lite.task.gms.vision.detector.ObjectDetector
 
 class ObjectDetectorHelper(
     var threshold: Float = 0.5f,
-    var maxResults: Int = 3,
+    var maxResults: Int = 5,
     val modelName: String = "efficientdet_lite0_v1.tflite",
     val context: Context,
     val detectorListener: DetectorListener?
@@ -86,7 +86,7 @@ class ObjectDetectorHelper(
         val results = objectDetector?.detect(tensorImage)
         inferenceTime = SystemClock.uptimeMillis() - inferenceTime
         detectorListener?.onResults(
-            results, inferenceTime
+            results, inferenceTime, tensorImage.height, tensorImage.width
         )
     }
 
@@ -105,7 +105,9 @@ class ObjectDetectorHelper(
         fun onError(error: String)
         fun onResults(
             results: MutableList<Detection>?,
-            inferenceTime: Long
+            inferenceTime: Long,
+            imageHeight: Int,
+            imageWidth: Int
         )
     }
 }

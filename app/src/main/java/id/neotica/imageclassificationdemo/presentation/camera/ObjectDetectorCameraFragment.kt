@@ -77,8 +77,12 @@ class ObjectDetectorCameraFragment : Fragment(R.layout.fragment_tfl_camera) {
                     }
                 }
 
-                override fun onResults(results: MutableList<Detection>?, inferenceTime: Long) {
-
+                override fun onResults(
+                    results: MutableList<Detection>?,
+                    inferenceTime: Long,
+                    imageHeight: Int,
+                    imageWidth: Int
+                ) {
                     viewLifecycleOwner.lifecycleScope.launch {
                         binding.tvInference.text = inferenceTime.toString()
 
@@ -91,11 +95,17 @@ class ObjectDetectorCameraFragment : Fragment(R.layout.fragment_tfl_camera) {
                                     builder.append("$displayResult \n")
                                 }
 
+                                binding.overlay.setResults(
+                                    results, imageHeight, imageWidth
+                                )
                                 binding.tvResult.text = builder.toString()
                             } else {
+                                binding.overlay.clear()
                                 binding.tvResult.text = ""
                             }
                         }
+
+                        binding.overlay.invalidate()
                     }
                 }
             }
@@ -115,7 +125,9 @@ class ObjectDetectorCameraFragment : Fragment(R.layout.fragment_tfl_camera) {
                 .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                 .build()
             imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) {
-                objectDetectorHelper.detectObject(it)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    objectDetectorHelper.detectObject(it)
+                }
             }
 
             imageCapture = ImageCapture.Builder().build()
