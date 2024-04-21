@@ -94,6 +94,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             btnTflite.setOnClickListener { startTFLiteCamera() }
             btnTfliteGms.setOnClickListener { startTfLiteGMSCamera() }
             btnObjectDetector.setOnClickListener { startObjectDetectorCamera() }
+            btnRicePredictor.setOnClickListener {
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToRicePredictorFragment())
+            }
         }
     }
 

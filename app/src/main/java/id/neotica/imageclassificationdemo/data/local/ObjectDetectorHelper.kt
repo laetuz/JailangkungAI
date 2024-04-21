@@ -19,7 +19,7 @@ import org.tensorflow.lite.task.gms.vision.detector.ObjectDetector
 
 class ObjectDetectorHelper(
     var threshold: Float = 0.5f,
-    var maxResults: Int = 5,
+    var maxResults: Int = 3,
     val modelName: String = "efficientdet_lite0_v1.tflite",
     val context: Context,
     val detectorListener: DetectorListener?

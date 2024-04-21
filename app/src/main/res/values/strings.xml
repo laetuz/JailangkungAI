@@ -10,6 +10,10 @@
     <string name="image_classifier_failed">Image failed to be classified.</string>
     <string name="error">Error: Dumbfounded.</string>
     <string name="error_tflite">TfLiteVision is not initialized yet</string>
+    
+    <string name="rice_title">Rice Stock Predictor</string>
+    <string name="rice_desc">Fill in this month sales in kilograms.</string>
+    <string name="rice_btn">Predict next month\'s stock</string>
 
     <!-- Button -->
     <string name="button_api">Analyze with API</string>
