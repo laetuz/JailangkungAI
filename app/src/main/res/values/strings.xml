@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ImageClassificationDemo</string>
+    <string name="app_audio">Audio Classification</string>
 
     <string name="camera_x">CameraX</string>
     <string name="camera">Camera</string>
@@ -25,4 +26,9 @@
     <string name="object_detector">Object Detector</string>
     <string name="mediapipe_camera">MediaPipe Camera</string>
     <string name="title_mediapipe">Media Pipe</string>
+
+    <string name="btn_start">Start</string>
+    <string name="btn_stop">Stop</string>
+    <string name="audio_classifier_failed">Audio Classifier failed to initialize. See error logs for details</string>
+    <string name="mediapipe_audio">Audio Mediapipe</string>
 </resources>

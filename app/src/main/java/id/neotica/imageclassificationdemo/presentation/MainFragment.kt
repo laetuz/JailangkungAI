@@ -37,20 +37,25 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val requestPermissionLauncher =
         registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted: Boolean ->
-            if (isGranted) {
-                Toast.makeText(context, "Permission request granted", Toast.LENGTH_LONG).show()
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            if (permissions[REQUIRED_PERMISSION] == true && permissions[AUDIO_PERMISSION] == true) {
+                Toast.makeText(context, "Permissions granted", Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(context, "Permission request denied", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Permissions denied", Toast.LENGTH_LONG).show()
             }
         }
 
     private fun allPermissionsGranted() =
         ContextCompat.checkSelfPermission(
             requireContext(),
-            REQUIRED_PERMISSION
-        ) == PackageManager.PERMISSION_GRANTED
+            REQUIRED_PERMISSION,
+            ) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    AUDIO_PERMISSION,
+                ) == PackageManager.PERMISSION_GRANTED
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,7 +76,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun setupUI() {
         if (!allPermissionsGranted()) {
-            requestPermissionLauncher.launch(REQUIRED_PERMISSION)
+            requestPermissionLauncher.launch(arrayOf(REQUIRED_PERMISSION, AUDIO_PERMISSION))
         }
         with(binding) {
             cameraXButton.setOnClickListener { startCameraX("normal") }
@@ -98,9 +103,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 findNavController().navigate(MainFragmentDirections.actionMainFragmentToRicePredictorFragment())
             }
             btnMediapipeCamera.setOnClickListener {
-
                 findNavController().navigate(MainFragmentDirections.actionMainFragmentToMediaPipeCameraFragment())
-
+            }
+            btnMediapipeAudio.setOnClickListener {
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToAudioFragment())
             }
         }
     }
@@ -244,6 +250,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     companion object {
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
+        private const val AUDIO_PERMISSION = Manifest.permission.RECORD_AUDIO
     }
 
     override fun onDestroyView() {

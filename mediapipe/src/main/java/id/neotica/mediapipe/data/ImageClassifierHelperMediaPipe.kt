@@ -1,4 +1,4 @@
-package id.neotica.mediapipe
+package id.neotica.mediapipe.data
 
 import android.content.Context
 import android.graphics.Bitmap

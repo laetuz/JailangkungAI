@@ -43,4 +43,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     //MediaPipe
     implementation("com.google.mediapipe:tasks-vision:0.20230731") //for vision
+    implementation("com.google.mediapipe:tasks-audio:0.20230731") //for audio
+
 }

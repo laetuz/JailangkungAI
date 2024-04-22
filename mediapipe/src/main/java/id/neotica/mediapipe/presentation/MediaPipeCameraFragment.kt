@@ -1,4 +1,4 @@
-package id.neotica.mediapipe
+package id.neotica.mediapipe.presentation
 
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.mediapipe.tasks.components.containers.Classifications
+import id.neotica.mediapipe.R
+import id.neotica.mediapipe.data.ImageClassifierHelperMediaPipe
 import id.neotica.mediapipe.databinding.FragmentMpCameraBinding
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
