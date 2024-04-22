@@ -55,7 +55,18 @@ dependencies {
     //tfLite
     implementation(libs.tensorflow.lite.support)
     implementation(libs.tensorflow.lite.metadata)
-    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4") //for vision
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.9.0")
+
+    //tfLite gms
+    implementation("com.google.android.gms:play-services-tflite-support:16.1.0") //add support for gms tfLite
+    implementation("com.google.android.gms:play-services-tflite-gpu:16.2.0") //for gpu
+    implementation("org.tensorflow:tensorflow-lite-task-vision-play-services:0.4.4") //for vision
+    implementation("com.google.android.gms:play-services-tflite-java:16.1.0") //For Rice prediction
+
+    //MediaPipe
+    implementation("com.google.mediapipe:tasks-vision:0.20230731") //for vision
+
 
     val cameraxVersion = "1.3.0"
     implementation(project(":domain"))
