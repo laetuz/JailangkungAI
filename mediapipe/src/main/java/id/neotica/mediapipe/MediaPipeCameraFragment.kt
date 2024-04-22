@@ -1,4 +1,4 @@
-package id.neotica.imageclassificationdemo.presentation.mediapipe
+package id.neotica.mediapipe
 
 import android.os.Bundle
 import android.util.Log
@@ -17,16 +17,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.mediapipe.tasks.components.containers.Classifications
-import id.neotica.imageclassificationdemo.R
-import id.neotica.imageclassificationdemo.data.local.ImageClassifierHelperMediaPipe
-import id.neotica.imageclassificationdemo.databinding.FragmentTflCameraBinding
+import id.neotica.mediapipe.databinding.FragmentMpCameraBinding
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.concurrent.Executors
 
-class MediaPipeCameraFragment : Fragment(R.layout.fragment_tfl_camera) {
-    private var _binding: FragmentTflCameraBinding? = null
-    private val binding: FragmentTflCameraBinding get() = _binding!!
+class MediaPipeCameraFragment : Fragment(R.layout.fragment_mp_camera) {
+    private var _binding: FragmentMpCameraBinding? = null
+    private val binding: FragmentMpCameraBinding get() = _binding!!
 
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var imageCapture: ImageCapture? = null
@@ -36,7 +34,7 @@ class MediaPipeCameraFragment : Fragment(R.layout.fragment_tfl_camera) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentTflCameraBinding.bind(view)
+        _binding = FragmentMpCameraBinding.bind(view)
 
         setupUiTfLite()
         tfLiteCamera()

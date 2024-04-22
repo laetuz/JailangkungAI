@@ -8,7 +8,8 @@ buildscript {
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
-    id("com.google.devtools.ksp") version "1.9.0-1.0.13" apply false
+    alias(libs.plugins.devToolsKsp) apply false
     kotlin("plugin.serialization") version "1.8.10"
     alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.androidDynamicFeature) apply false
 }

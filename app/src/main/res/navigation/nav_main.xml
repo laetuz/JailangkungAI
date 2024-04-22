@@ -64,6 +64,6 @@
         tools:layout="@layout/fragment_rice_predictor" />
     <fragment
         android:id="@+id/mediaPipeCameraFragment"
-        android:name="id.neotica.imageclassificationdemo.presentation.mediapipe.MediaPipeCameraFragment"
+        android:name="id.neotica.mediapipe.MediaPipeCameraFragment"
         android:label="MediaPipeCameraFragment" />
 </navigation>

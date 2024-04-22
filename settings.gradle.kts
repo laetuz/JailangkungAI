@@ -23,3 +23,4 @@ rootProject.name = "ImageClassificationDemo"
 include(":app")
 include(":core")
 include(":domain")
+include(":mediapipe")

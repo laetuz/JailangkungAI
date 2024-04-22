@@ -98,7 +98,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 findNavController().navigate(MainFragmentDirections.actionMainFragmentToRicePredictorFragment())
             }
             btnMediapipeCamera.setOnClickListener {
+
                 findNavController().navigate(MainFragmentDirections.actionMainFragmentToMediaPipeCameraFragment())
+
             }
         }
     }

@@ -1,4 +1,4 @@
-package id.neotica.imageclassificationdemo.data.local
+package id.neotica.mediapipe
 
 import android.content.Context
 import android.graphics.Bitmap
