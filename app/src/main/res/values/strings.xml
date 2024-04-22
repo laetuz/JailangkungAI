@@ -23,4 +23,5 @@
     <string name="tflite_camera">TfLite Camera</string>
     <string name="tflite_gms">tflite GMS</string>
     <string name="object_detector">Object Detector</string>
+    <string name="mediapipe_camera">MediaPipe Camera</string>
 </resources>

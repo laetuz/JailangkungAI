@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_mainFragment_to_ricePredictorFragment"
             app:destination="@id/ricePredictorFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_mediaPipeCameraFragment"
+            app:destination="@id/mediaPipeCameraFragment" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -59,4 +62,8 @@
         android:name="id.neotica.imageclassificationdemo.presentation.RicePredictorFragment"
         android:label="fragment_rice_predictor"
         tools:layout="@layout/fragment_rice_predictor" />
+    <fragment
+        android:id="@+id/mediaPipeCameraFragment"
+        android:name="id.neotica.imageclassificationdemo.presentation.mediapipe.MediaPipeCameraFragment"
+        android:label="MediaPipeCameraFragment" />
 </navigation>

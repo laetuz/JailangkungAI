@@ -178,6 +178,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/rice_title" />
+
+                        <Button
+                            android:id="@+id/btn_mediapipe_camera"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mediapipe_camera" />
                     </LinearLayout>
 
 
