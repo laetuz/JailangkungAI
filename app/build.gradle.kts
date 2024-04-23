@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "id.neotica.imageclassificationdemo"
+    namespace = "id.neotica.jailangkungai"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "id.neotica.imageclassificationdemo"
+        applicationId = "id.neotica.jailangkungai"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
@@ -52,6 +52,10 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":core"))
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
     //Navigation Component
     api("androidx.navigation:navigation-fragment-ktx:2.7.6")

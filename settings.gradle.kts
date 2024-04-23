@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ImageClassificationDemo"
+rootProject.name = "JailangkungAI"
 include(":app")
 include(":core")
 include(":domain")

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <id.neotica.imageclassificationdemo.presentation.customview.OverlayView
+    <id.neotica.jailangkungai.presentation.customview.OverlayView
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

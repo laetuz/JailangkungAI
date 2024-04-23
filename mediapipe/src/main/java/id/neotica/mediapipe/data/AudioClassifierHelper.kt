@@ -66,10 +66,10 @@ class AudioClassifierHelper(
             }
 
         } catch (e: IllegalStateException) {
-            classifierListener?.onError(context.getString(id.neotica.imageclassificationdemo.R.string.audio_classifier_failed))
+            classifierListener?.onError(context.getString(id.neotica.jailangkungai.R.string.audio_classifier_failed))
             Log.e(TAG, "MP task failed to load with error: " + e.message)
         } catch (e: RuntimeException) {
-            classifierListener?.onError(context.getString(id.neotica.imageclassificationdemo.R.string.audio_classifier_failed))
+            classifierListener?.onError(context.getString(id.neotica.jailangkungai.R.string.audio_classifier_failed))
             Log.e(TAG, "MP task failed to load with error: " + e.message)
         }
 
