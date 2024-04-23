@@ -2,4 +2,11 @@
 <resources>
     <string name="mediapipe">MediaPipe</string>
     <string name="mediapipe_audio">Audio</string>
+    <string name="classify">Classify</string>
+
+    <string name="text_classification_title">Word Positivity Meter</string>
+    <string name="text_classifier_failed">Text classifier failed to init.</string>
+    <string name="text_classification">Text Classification</string>
+
+    <string name="mediapipe_camera">MediaPipe Camera</string>
 </resources>

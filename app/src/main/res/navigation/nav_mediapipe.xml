@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mediaPipeFragment_to_mediaPipeCameraFragment"
             app:destination="@id/mediaPipeCameraFragment" />
+        <action
+            android:id="@+id/action_mediaPipeFragment_to_textClassificationFragment"
+            app:destination="@id/textClassificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/mediaPipeCameraFragment"
@@ -22,4 +25,8 @@
         android:id="@+id/audioFragment"
         android:name="id.neotica.mediapipe.presentation.AudioFragment"
         android:label="MediaPipeCameraFragment" />
+    <fragment
+        android:id="@+id/textClassificationFragment"
+        android:name="id.neotica.mediapipe.presentation.TextClassificationFragment"
+        android:label="TextClassificationFragment" />
 </navigation>

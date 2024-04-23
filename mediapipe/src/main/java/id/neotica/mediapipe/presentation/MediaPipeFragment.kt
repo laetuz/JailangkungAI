@@ -26,6 +26,9 @@ class MediaPipeFragment : Fragment(R.layout.fragment_mediapipe) {
             btnAudio.setOnClickListener {
                 findNavController().navigate(MediaPipeFragmentDirections.actionMediaPipeFragmentToAudioFragment())
             }
+            btnTextClassification.setOnClickListener {
+                findNavController().navigate(MediaPipeFragmentDirections.actionMediaPipeFragmentToTextClassificationFragment())
+            }
         }
     }
 

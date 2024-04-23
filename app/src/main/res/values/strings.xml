@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Jailangkung AI</string>
     <string name="app_audio">Audio Classification</string>
+    <string name="title_mediapipe">Media Pipe</string>
 
     <string name="camera_x">CameraX</string>
     <string name="camera">Camera</string>
@@ -24,8 +25,6 @@
     <string name="tflite_camera">TfLite Camera</string>
     <string name="tflite_gms">tflite GMS</string>
     <string name="object_detector">Object Detector</string>
-    <string name="mediapipe_camera">MediaPipe Camera</string>
-    <string name="title_mediapipe">Media Pipe</string>
 
     <string name="btn_start">Start</string>
     <string name="btn_stop">Stop</string>

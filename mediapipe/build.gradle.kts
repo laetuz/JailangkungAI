@@ -45,5 +45,6 @@ dependencies {
     //MediaPipe
     implementation("com.google.mediapipe:tasks-vision:0.20230731") //for vision
     implementation("com.google.mediapipe:tasks-audio:0.20230731") //for audio
+    implementation("com.google.mediapipe:tasks-text:0.20230731") //for text
 
 }

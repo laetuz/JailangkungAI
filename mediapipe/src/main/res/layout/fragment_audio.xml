@@ -25,13 +25,12 @@
             android:layout_weight="1"
             android:text="@string/app_audio" />
 
-        <EditText
-            android:id="@+id/et_sales"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="14dp"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number"
             android:text="" />
 
         <LinearLayout
@@ -53,13 +52,6 @@
                 android:text="@string/btn_stop" />
         </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/tv_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
