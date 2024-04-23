@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidDynamicFeature)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.safeArgs)
 }
 android {
     namespace = "id.neotica.mediapipe"

@@ -14,6 +14,7 @@ tensorflowLiteMetadata = "0.4.4"
 annotation = "1.7.1"
 ksp = "1.9.0-1.0.13"
 serialization = "1.8.10"
+navigation = "2.7.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,6 +28,8 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 tensorflow-lite-support = { group = "org.tensorflow", name = "tensorflow-lite-support", version.ref = "tensorflowLiteSupport" }
 tensorflow-lite-metadata = { group = "org.tensorflow", name = "tensorflow-lite-metadata", version.ref = "tensorflowLiteMetadata" }
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -35,5 +38,6 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 androidDynamicFeature = { id = "com.android.dynamic-feature", version.ref = "agp" }
 devToolsKsp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 kotlinSerialization = { id = "plugin.serialization", version.ref = "serialization"}
+safeArgs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 
 

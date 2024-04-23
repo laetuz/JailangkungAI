@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.safeArgs)
 }
 
 android {
@@ -56,10 +56,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    //Navigation Component
-    api("androidx.navigation:navigation-fragment-ktx:2.7.6")
-    api("androidx.navigation:navigation-ui-ktx:2.7.6")
 
     //tfLite
     implementation(libs.tensorflow.lite.support)

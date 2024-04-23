@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.devtools.ksp")
     id("kotlinx-serialization")
+    alias(libs.plugins.safeArgs)
 }
 
 android {
@@ -45,6 +46,10 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    //Navigation Component
+    api(libs.navigation.ui)
+    api(libs.navigation.fragment)
+
     //Camera
     val cameraxVersion = "1.3.0"
     implementation("androidx.camera:camera-camera2:$cameraxVersion")
@@ -52,8 +57,8 @@ dependencies {
     api("androidx.camera:camera-view:$cameraxVersion")
 
     //Retrofit
-    api ("com.squareup.retrofit2:retrofit:2.9.0")
-    api ("com.squareup.retrofit2:converter-gson:2.9.0")
-    api ("com.squareup.okhttp3:logging-interceptor:4.11.0")
+    api("com.squareup.retrofit2:retrofit:2.9.0")
+    api("com.squareup.retrofit2:converter-gson:2.9.0")
+    api("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
 }

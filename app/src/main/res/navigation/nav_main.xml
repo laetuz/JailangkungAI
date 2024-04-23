@@ -30,11 +30,8 @@
             android:id="@+id/action_mainFragment_to_ricePredictorFragment"
             app:destination="@id/ricePredictorFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_mediaPipeCameraFragment"
-            app:destination="@id/mediaPipeCameraFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_audioFragment"
-            app:destination="@id/audioFragment" />
+            android:id="@+id/action_mainFragment_to_nav_mediapipe"
+            app:destination="@+id/nav_mediapipe" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -65,12 +62,6 @@
         android:name="id.neotica.jailangkungai.presentation.RicePredictorFragment"
         android:label="fragment_rice_predictor"
         tools:layout="@layout/fragment_rice_predictor" />
-    <fragment
-        android:id="@+id/mediaPipeCameraFragment"
-        android:name="id.neotica.mediapipe.presentation.MediaPipeCameraFragment"
-        android:label="MediaPipeCameraFragment" />
-    <fragment
-        android:id="@+id/audioFragment"
-        android:name="id.neotica.mediapipe.presentation.AudioFragment"
-        android:label="MediaPipeCameraFragment" />
+
+    <include app:graph="@navigation/nav_mediapipe" />
 </navigation>

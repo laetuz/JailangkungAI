@@ -102,18 +102,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             btnRicePredictor.setOnClickListener {
                 findNavController().navigate(MainFragmentDirections.actionMainFragmentToRicePredictorFragment())
             }
-            btnMediapipeCamera.setOnClickListener {
-                findNavController().navigate(MainFragmentDirections.actionMainFragmentToMediaPipeCameraFragment())
-            }
-            btnMediapipeAudio.setOnClickListener {
-                findNavController().navigate(MainFragmentDirections.actionMainFragmentToAudioFragment())
+            btnMediapipe.setOnClickListener {
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToNavMediapipe())
             }
         }
     }
 
     private fun observeViewModel() {
         lifecycleScope.launch {
-            viewModel.image.collect() {
+            viewModel.image.collect {
                 when (it) {
                     is ApiResult.Loading -> showLoading(true)
                     is ApiResult.Success -> {
@@ -131,7 +128,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
         lifecycleScope.launch {
-            viewModel.visionText.collect() {
+            viewModel.visionText.collect {
                 binding.resultTextView.text = it
             }
         }
