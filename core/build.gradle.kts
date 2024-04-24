@@ -61,4 +61,7 @@ dependencies {
     api("com.squareup.retrofit2:converter-gson:2.9.0")
     api("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
+    api(libs.koin.core)
+    api(libs.koin.android)
+
 }

@@ -15,6 +15,7 @@ annotation = "1.7.1"
 ksp = "1.9.0-1.0.13"
 serialization = "1.8.10"
 navigation = "2.7.7"
+koinVersion = "3.3.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,6 +31,8 @@ tensorflow-lite-metadata = { group = "org.tensorflow", name = "tensorflow-lite-m
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation"}
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koinVersion"}
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinVersion"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

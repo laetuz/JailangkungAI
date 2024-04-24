@@ -105,6 +105,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             btnMediapipe.setOnClickListener {
                 findNavController().navigate(MainFragmentDirections.actionMainFragmentToNavMediapipe())
             }
+            btnChatSmart.setOnClickListener {
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToNavChat())
+            }
         }
     }
 

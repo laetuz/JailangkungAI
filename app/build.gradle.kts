@@ -46,7 +46,7 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
-    dynamicFeatures += setOf(":mediapipe")
+    dynamicFeatures += setOf(":mediapipe", ":smartreply")
 }
 
 dependencies {
@@ -80,8 +80,9 @@ dependencies {
 
     //Koin
     val koinVersion = "3.3.2"
-    implementation ("io.insert-koin:koin-core:$koinVersion")
-    implementation("io.insert-koin:koin-android:$koinVersion")
+ /*   implementation ("io.insert-koin:koin-core:$koinVersion")
+    implementation("io.insert-koin:koin-android:$koinVersion")*/
+
 
     //MLKit
     implementation("com.google.mlkit:text-recognition:16.0.0") //Text recognition
