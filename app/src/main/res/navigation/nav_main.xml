@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="id.neotica.imageclassificationdemo.presentation.MainFragment"
+        android:name="id.neotica.jailangkungai.presentation.MainFragment"
         android:label="MainFragment" >
         <action
             android:id="@+id/action_mainFragment_to_cameraFragment"
@@ -30,12 +30,15 @@
             android:id="@+id/action_mainFragment_to_ricePredictorFragment"
             app:destination="@id/ricePredictorFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_mediaPipeCameraFragment"
-            app:destination="@id/mediaPipeCameraFragment" />
+            android:id="@+id/action_mainFragment_to_nav_mediapipe"
+            app:destination="@+id/nav_mediapipe" />
+        <action
+            android:id="@+id/action_mainFragment_to_nav_chat"
+            app:destination="@+id/nav_chat" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="id.neotica.imageclassificationdemo.presentation.camera.CameraFragment"
+        android:name="id.neotica.jailangkungai.presentation.camera.CameraFragment"
         android:label="CameraFragment" >
         <action
             android:id="@+id/action_cameraFragment_to_mainFragment"
@@ -47,23 +50,22 @@
     </fragment>
     <fragment
         android:id="@+id/TFLiteCameraFragment"
-        android:name="id.neotica.imageclassificationdemo.presentation.camera.TFLiteCameraFragment"
+        android:name="id.neotica.jailangkungai.presentation.camera.TFLiteCameraFragment"
         android:label="TFLiteCameraFragment" />
     <fragment
         android:id="@+id/TFLiteGmsCameraFragment"
-        android:name="id.neotica.imageclassificationdemo.presentation.camera.TFLiteGmsCameraFragment"
+        android:name="id.neotica.jailangkungai.presentation.camera.TFLiteGmsCameraFragment"
         android:label="TFLiteGmsCameraFragment" />
     <fragment
         android:id="@+id/objectDetectorCameraFragment"
-        android:name="id.neotica.imageclassificationdemo.presentation.camera.ObjectDetectorCameraFragment"
+        android:name="id.neotica.jailangkungai.presentation.camera.ObjectDetectorCameraFragment"
         android:label="ObjectDetectorCameraFragment" />
     <fragment
         android:id="@+id/ricePredictorFragment"
-        android:name="id.neotica.imageclassificationdemo.presentation.RicePredictorFragment"
+        android:name="id.neotica.jailangkungai.presentation.RicePredictorFragment"
         android:label="fragment_rice_predictor"
         tools:layout="@layout/fragment_rice_predictor" />
-    <fragment
-        android:id="@+id/mediaPipeCameraFragment"
-        android:name="id.neotica.imageclassificationdemo.presentation.mediapipe.MediaPipeCameraFragment"
-        android:label="MediaPipeCameraFragment" />
+
+    <include app:graph="@navigation/nav_mediapipe" />
+    <include app:graph="@navigation/nav_chat" />
 </navigation>

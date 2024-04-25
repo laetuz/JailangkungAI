@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.devtools.ksp")
+    id("kotlinx-serialization")
+    alias(libs.plugins.safeArgs)
 }
 
 android {
@@ -24,11 +27,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
@@ -40,4 +43,28 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+
+    //Navigation Component
+    api(libs.navigation.ui)
+    api(libs.navigation.fragment)
+
+    //MLKit
+    api("com.google.mlkit:smart-reply:17.0.2")
+
+    //Camera
+    val cameraxVersion = "1.3.0"
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    api("androidx.camera:camera-lifecycle:$cameraxVersion")
+    api("androidx.camera:camera-view:$cameraxVersion")
+
+    //Retrofit
+    api("com.squareup.retrofit2:retrofit:2.9.0")
+    api("com.squareup.retrofit2:converter-gson:2.9.0")
+    api("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    api(libs.koin.core)
+    api(libs.koin.android)
+
 }

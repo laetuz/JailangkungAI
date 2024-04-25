@@ -12,6 +12,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/mediapipe" />
+            <option value="$PROJECT_DIR$/smartreply" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

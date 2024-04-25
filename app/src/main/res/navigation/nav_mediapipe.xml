@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_mediapipe"
+    app:startDestination="@id/mediaPipeFragment">
+    <fragment
+        android:id="@+id/mediaPipeFragment"
+        android:name="id.neotica.mediapipe.presentation.MediaPipeFragment"
+        android:label="MediaPipeFragment" >
+        <action
+            android:id="@+id/action_mediaPipeFragment_to_audioFragment"
+            app:destination="@id/audioFragment" />
+        <action
+            android:id="@+id/action_mediaPipeFragment_to_mediaPipeCameraFragment"
+            app:destination="@id/mediaPipeCameraFragment" />
+        <action
+            android:id="@+id/action_mediaPipeFragment_to_textClassificationFragment"
+            app:destination="@id/textClassificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mediaPipeCameraFragment"
+        android:name="id.neotica.mediapipe.presentation.MediaPipeCameraFragment"
+        android:label="MediaPipeCameraFragment" />
+    <fragment
+        android:id="@+id/audioFragment"
+        android:name="id.neotica.mediapipe.presentation.AudioFragment"
+        android:label="MediaPipeCameraFragment" />
+    <fragment
+        android:id="@+id/textClassificationFragment"
+        android:name="id.neotica.mediapipe.presentation.TextClassificationFragment"
+        android:label="TextClassificationFragment" />
+</navigation>

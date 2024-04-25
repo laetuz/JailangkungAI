@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">ImageClassificationDemo</string>
+    <string name="app_name">Jailangkung AI</string>
+    <string name="app_audio">Audio Classification</string>
+    <string name="title_mediapipe">Media Pipe</string>
 
     <string name="camera_x">CameraX</string>
     <string name="camera">Camera</string>
@@ -10,7 +12,7 @@
     <string name="image_classifier_failed">Image failed to be classified.</string>
     <string name="error">Error: Dumbfounded.</string>
     <string name="error_tflite">TfLiteVision is not initialized yet</string>
-    
+
     <string name="rice_title">Rice Stock Predictor</string>
     <string name="rice_desc">Fill in this month sales in kilograms.</string>
     <string name="rice_btn">Predict next month\'s stock</string>
@@ -23,5 +25,22 @@
     <string name="tflite_camera">TfLite Camera</string>
     <string name="tflite_gms">tflite GMS</string>
     <string name="object_detector">Object Detector</string>
-    <string name="mediapipe_camera">MediaPipe Camera</string>
+
+    <string name="btn_start">Start</string>
+    <string name="btn_stop">Stop</string>
+    <string name="audio_classifier_failed">Audio Classifier failed to initialize. See error logs for details</string>
+    <string name="mediapipe_audio">Audio Mediapipe</string>
+    <string name="title_smartreply">Smart Reply</string>
+    
+    <!--  Chat  -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="input_text_hint">Type a message</string>
+    <string name="send_message_text">Send</string>
+    <string name="switch_user_text">Switch User</string>
+    <string name="chatting_as_evans">Chatting as Evans</string>
+    <string name="chatting_as_kai">Chatting as Kai</string>
+    <string name="option_menu_generate_basic_chat_history">Generate basic chat history</string>
+    <string name="option_menu_generate_sensitive_chat_history">Generate sensitive chat history</string>
+    <string name="clear_chat_history">Clear chat history</string>
+    <string name="smart_chat">Smart Chat</string>
 </resources>
