@@ -50,6 +50,9 @@ dependencies {
     api(libs.navigation.ui)
     api(libs.navigation.fragment)
 
+    //MLKit
+    api("com.google.mlkit:smart-reply:17.0.2")
+
     //Camera
     val cameraxVersion = "1.3.0"
     implementation("androidx.camera:camera-camera2:$cameraxVersion")

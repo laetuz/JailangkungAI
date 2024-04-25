@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.cameraFragment -> {
                     setInsets()
                 }
+                R.id.smartReplyFragment -> {
+                    setInsets()
+                }
                 else -> {
                     clearInsets()
                 }

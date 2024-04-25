@@ -41,4 +41,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //ML Kit Smart Reply
+    //implementation("com.google.android.gms:play-services-mlkit-smart-reply:16.0.0-beta1")
+//    api("com.google.mlkit:smart-reply:17.0.2")
+
+    //Bundled version
+    //implementation("com.google.mlkit:smart-reply:17.0.2")
 }

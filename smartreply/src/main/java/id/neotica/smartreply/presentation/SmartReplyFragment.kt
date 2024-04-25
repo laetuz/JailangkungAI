@@ -9,22 +9,33 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import id.neotica.smartreply.R
+import id.neotica.smartreply.data.Message
+import id.neotica.jailangkungai.R as MainR
 import id.neotica.smartreply.databinding.FragmentChatBinding
 import id.neotica.smartreply.viewModelModules
 import kotlinx.coroutines.launch
 import org.koin.core.context.loadKoinModules
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Calendar
 
 class SmartReplyFragment : Fragment(R.layout.fragment_chat) {
     private var _binding: FragmentChatBinding? = null
     private val binding: FragmentChatBinding get() = _binding!!
 
     private var chatAdapter = ChatHistoryAdapter()
+
+    private var replyOptionsAdapter = ReplyOptionsAdapter(object: ReplyOptionsAdapter.OnItemClickCallback {
+        override fun onOptionClicked(optionText: String) {
+            binding.tietInputTextEditText.setText(optionText)
+        }
+    })
 
     init {
         loadKoinModules(viewModelModules)
@@ -39,6 +50,7 @@ class SmartReplyFragment : Fragment(R.layout.fragment_chat) {
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar as Toolbar)
 
         setupUI()
+        setupMenu()
         observeViewModel()
     }
 
@@ -50,16 +62,10 @@ class SmartReplyFragment : Fragment(R.layout.fragment_chat) {
 
             val optionsLayoutManager = LinearLayoutManager(context)
             optionsLayoutManager.orientation = RecyclerView.HORIZONTAL
+
             rvSmartReplyOptions.layoutManager = optionsLayoutManager
+            rvSmartReplyOptions.adapter = replyOptionsAdapter
 
-//            rvSmartReplyOptions.layoutManager = LinearLayoutManager(context).apply { orientation = RecyclerView.HORIZONTAL }
-
-            rvSmartReplyOptions.adapter = ReplyOptionsAdapter(object: ReplyOptionsAdapter.OnItemClickCallback {
-                override fun onOptionClicked(optionText: String) {
-                    tietInputTextEditText.setText(optionText)
-                }
-
-            })
             btnSwitchUser.setOnClickListener {
                 chatAdapter.pretendingAsAnotherUser = !chatAdapter.pretendingAsAnotherUser
                 viewModel.switchUser()
@@ -109,40 +115,83 @@ class SmartReplyFragment : Fragment(R.layout.fragment_chat) {
                 }
             }
         }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.chat_menu_options, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.generateBasicChatHistory -> {
-                generateBasicChatHistory()
-                true
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.smartReplyOptions.collect() {
+                replyOptionsAdapter.setReplyOptions(it)
             }
-
-            R.id.generateSensitiveChatHistory -> {
-                generateSensitiveChatHistory()
-                true
-            }
-
-            R.id.clearChatHistory -> {
-                viewModel.setMessages(ArrayList())
-                true
-            }
-
-            else -> false
         }
     }
 
-    private fun generateBasicChatHistory() {
+    private fun setupMenu() {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(MainR.menu.chat_menu_options, menu)
+            }
 
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when(menuItem.itemId) {
+                    MainR.id.generateBasicChatHistory -> {
+                        generateBasicChatHistory()
+                        true
+                    }
+
+                    MainR.id.generateSensitiveChatHistory -> {
+                        generateSensitiveChatHistory()
+                        true
+                    }
+
+                    MainR.id.clearChatHistory -> {
+                        viewModel.setMessages(ArrayList())
+                        true
+                    }
+
+                    else -> {false}
+                }
+            }
+        })
+    }
+
+    private fun generateBasicChatHistory() {
+        val chatHistory = ArrayList<Message>()
+        val calendar = Calendar.getInstance()
+
+        calendar.add(Calendar.MINUTE, -10)
+        chatHistory.add(
+            Message(
+                text = "Hello",
+                isLocalUser = true,
+                timeStamp = calendar.timeInMillis
+            )
+        )
+
+        calendar.add(Calendar.MINUTE, 10)
+        chatHistory.add(
+            Message(
+                text = "Hey",
+                isLocalUser = false,
+                timeStamp = calendar.timeInMillis
+            )
+        )
+
+        viewModel.setMessages(chatHistory)
     }
 
     private fun generateSensitiveChatHistory() {
+        val chatHistory = ArrayList<Message>()
+        val calendar = Calendar.getInstance()
 
+        calendar.add(Calendar.MINUTE, -10)
+        chatHistory.add(Message("Hi", false, calendar.timeInMillis))
+
+        calendar.add(Calendar.MINUTE, 1)
+        chatHistory.add(Message("How are you?", true, calendar.timeInMillis))
+
+        calendar.add(Calendar.MINUTE, 10)
+        chatHistory.add(Message("My cat died", false, calendar.timeInMillis))
+
+        viewModel.setMessages(chatHistory)
     }
 
     override fun onDestroyView() {
