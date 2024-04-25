@@ -122,6 +122,12 @@
                         </LinearLayout>
 
                         <Button
+                            android:id="@+id/btn_bert"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/title_bert" />
+
+                        <Button
                             android:id="@+id/btn_chat_smart"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

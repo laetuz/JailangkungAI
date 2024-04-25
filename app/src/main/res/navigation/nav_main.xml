@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_mainFragment_to_nav_chat"
             app:destination="@+id/nav_chat" />
+        <action
+            android:id="@+id/action_mainFragment_to_nav_bert"
+            app:destination="@+id/nav_bert" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -68,4 +71,5 @@
 
     <include app:graph="@navigation/nav_mediapipe" />
     <include app:graph="@navigation/nav_chat" />
+    <include app:graph="@navigation/nav_bert" />
 </navigation>

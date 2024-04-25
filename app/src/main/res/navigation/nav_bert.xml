@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_bert"
+    app:startDestination="@id/topicsFragment">
+
+    <fragment
+        android:id="@+id/qaFragment"
+        android:name="id.neotica.bert.presentation.fragments.QAFragment"
+        android:label="QAFragment" />
+
+    <fragment
+        android:id="@+id/topicsFragment"
+        android:name="id.neotica.bert.presentation.fragments.TopicsFragment"
+        android:label="Topics Fragment" />
+
+</navigation>

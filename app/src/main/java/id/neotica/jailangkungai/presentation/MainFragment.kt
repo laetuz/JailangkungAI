@@ -108,6 +108,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             btnChatSmart.setOnClickListener {
                 findNavController().navigate(MainFragmentDirections.actionMainFragmentToNavChat())
             }
+            btnBert.setOnClickListener {
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToNavBert())
+            }
         }
     }
 
