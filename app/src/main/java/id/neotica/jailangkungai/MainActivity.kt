@@ -26,6 +26,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.smartReplyFragment -> {
                     setInsets()
                 }
+                R.id.topicsFragment -> {
+                    setInsets()
+                }
+                R.id.qaFragment -> {
+                    setInsetsBottom()
+                }
                 else -> {
                     clearInsets()
                 }
@@ -37,6 +43,14 @@ class MainActivity : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
+
+    private fun setInsetsBottom() {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
         }
     }

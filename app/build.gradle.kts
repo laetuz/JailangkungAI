@@ -47,8 +47,8 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
     dynamicFeatures += setOf(
-//        ":mediapipe",
-//        ":smartreply",
+        ":mediapipe",
+        ":smartreply",
         ":bert"
     )
 }

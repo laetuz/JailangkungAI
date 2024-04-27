@@ -7,11 +7,22 @@
     <fragment
         android:id="@+id/qaFragment"
         android:name="id.neotica.bert.presentation.fragments.QAFragment"
-        android:label="QAFragment" />
+        android:label="QAFragment" >
+        <argument
+            android:name="topicId"
+            app:argType="integer" />
+        <argument
+            android:name="topicTitle"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/topicsFragment"
         android:name="id.neotica.bert.presentation.fragments.TopicsFragment"
-        android:label="Topics Fragment" />
+        android:label="Topics Fragment" >
+        <action
+            android:id="@+id/action_topicsFragment_to_qaFragment"
+            app:destination="@id/qaFragment" />
+    </fragment>
 
 </navigation>
