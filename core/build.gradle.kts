@@ -55,7 +55,7 @@ dependencies {
 
     //Camera
     val cameraxVersion = "1.3.0"
-    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    api("androidx.camera:camera-camera2:$cameraxVersion")
     api("androidx.camera:camera-lifecycle:$cameraxVersion")
     api("androidx.camera:camera-view:$cameraxVersion")
 
