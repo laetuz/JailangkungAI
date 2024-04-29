@@ -6,4 +6,18 @@
     <string name="gallery">Galeri</string>
     <string name="analyze">Analyze</string>
     <string name="result">Hasil Analisis</string>
+
+    <string name="percent">100%</string>
+    <string name="category">Non-cancer</string>
+    <string name="article">More Articles</string>
+
+    <string name="history">History</string>
+
+    <string name="permission_granted">Permission request granted</string>
+    <string name="permission_denied">Permission request denied</string>
+    <string name="empty_image_warning">Please insert image.</string>
+    <string name="no_media_selected">No media selected</string>
+
+    <string name="image_classifier_failed">Image classifier failed to initialize. See error logs for details</string>
+
 </resources>
