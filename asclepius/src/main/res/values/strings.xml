@@ -5,7 +5,7 @@
     <string name="camera">Kamera</string>
     <string name="gallery">Galeri</string>
     <string name="analyze">Analyze</string>
-    <string name="result">Hasil Analisis</string>
+    <string name="result">Hasil Analisis:</string>
 
     <string name="percent">100%</string>
     <string name="category">Non-cancer</string>

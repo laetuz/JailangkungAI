@@ -18,10 +18,25 @@
             app:srcCompat="@drawable/ic_place_holder"/>
 
         <TextView
-            android:id="@+id/result_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/result" />
+
+        <TextView
+            android:id="@+id/tv_percentage"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/percent" />
+
+        <TextView
+            android:id="@+id/result_text"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/category" />
     </LinearLayout>
 </ScrollView>

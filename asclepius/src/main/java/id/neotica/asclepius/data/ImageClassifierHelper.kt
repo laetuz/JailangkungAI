@@ -13,6 +13,7 @@ import org.tensorflow.lite.support.common.ops.CastOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
+import org.tensorflow.lite.task.core.BaseOptions
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import org.tensorflow.lite.task.vision.classifier.ImageClassifier
 import java.lang.IllegalStateException
@@ -37,6 +38,9 @@ class ImageClassifierHelper(
         val optionBuilder = ImageClassifier.ImageClassifierOptions.builder()
             .setScoreThreshold(threshold)
             .setMaxResults(maxResult)
+        val baseOptionsBuilder = BaseOptions.builder()
+            .setNumThreads(4)
+        optionBuilder.setBaseOptions(baseOptionsBuilder.build())
 
         try {
             imageClassifier = ImageClassifier.createFromFileAndOptions(
@@ -54,25 +58,27 @@ class ImageClassifierHelper(
         // TODO: mengklasifikasikan imageUri dari gambar statis.
         if (imageClassifier == null) {
             setupImageClassifier()
-        }
-
-        val imageProcessor = ImageProcessor.Builder()
-            .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
-            .add(CastOp(DataType.FLOAT32))
-            .build()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val source = ImageDecoder.createSource(context.contentResolver, imageUri)
-            ImageDecoder.decodeBitmap(source)
         } else {
-            MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
-        }.copy(Bitmap.Config.ARGB_8888, true)?.let { bitmap ->
-            val tensorImage = imageProcessor.process(TensorImage.fromBitmap(bitmap))
-            val results = imageClassifier?.classify(tensorImage)
-            classifierListener?.onResults(
-                results
-            )
+            val imageProcessor = ImageProcessor.Builder()
+                .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
+                .add(CastOp(DataType.FLOAT32))
+                .build()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val source = ImageDecoder.createSource(context.contentResolver, imageUri)
+                ImageDecoder.decodeBitmap(source)
+            } else {
+                MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
+            }.copy(Bitmap.Config.ARGB_8888, true)?.let { bitmap ->
+                val tensorImage = imageProcessor.process(TensorImage.fromBitmap(bitmap))
+                val results = imageClassifier?.classify(tensorImage)
+                classifierListener?.onResults(
+                    results
+                )
+            }
         }
+
+
     }
 
     interface ClassifierListener {

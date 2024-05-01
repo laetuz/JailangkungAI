@@ -16,7 +16,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.yalantis.ucrop.UCrop
 import id.neotica.asclepius.R
+import id.neotica.asclepius.data.ImageClassifierHelper
 import id.neotica.asclepius.databinding.FragmentMainBinding
+import org.tensorflow.lite.task.vision.classifier.Classifications
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
@@ -24,6 +26,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val binding: FragmentMainBinding get() = _binding!!
 
     private var currentImageUri: Uri? = null
+    private lateinit var imageClassifierHelper: ImageClassifierHelper
+
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -100,14 +104,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun showImage() {
-        // TODO: Menampilkan gambar sesuai Gallery yang dipilih.
-        currentImageUri?.let {
-            Log.d("Image URI", "showImage: $it")
-            binding.previewImageView.setImageURI(it)
-        }
-    }
-
     private fun showImageFunc(uri: Uri?) {
         // TODO: Menampilkan gambar sesuai Gallery yang dipilih.
         uri?.let {
@@ -118,10 +114,40 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun analyzeImage() {
         // TODO: Menganalisa gambar yang berhasil ditampilkan.
+        currentImageUri?.let {uri ->
+            imageClassifierHelper = ImageClassifierHelper(
+                context = requireContext(),
+                classifierListener = object: ImageClassifierHelper.ClassifierListener {
+                    override fun onResults(results: List<Classifications>?) {
+                        // binding.progressIndicator.visibility = View.INVISIBLE
+
+                        Log.d("neolog", results.toString())
+                        results?.let { it ->
+                            if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
+                                val threshold = (it[0].categories[0].score * 100).toInt()
+                                val thresholdText = "$threshold %"
+                                val category = it[0].categories[0].label
+                                moveToResult(uri = uri, thresholdText, category)
+                            }
+                        }
+                    }
+                    override fun onError(error: String) {
+                        showToast(error)
+                    }
+                }
+            )
+            imageClassifierHelper.classifyStaticImage(uri)
+        }
+
     }
 
-    private fun moveToResult() {
-        val action = MainFragmentDirections.actionMainFragmentToResultFragment()
+    private fun moveToResult(uri: Uri, resultThreshold: String, resultCategory: String) {
+        Log.d("neolog", "move to result")
+        val action = MainFragmentDirections.actionMainFragmentToResultFragment(
+            uri = uri.toString(),
+            threshold = resultThreshold,
+            category = resultCategory
+        )
         findNavController().navigate(action)
     }
 
