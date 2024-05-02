@@ -5,7 +5,7 @@
     app:startDestination="@id/smartReplyFragment">
     <fragment
         android:id="@+id/smartReplyFragment"
-        android:name="id.neotica.smartreply.presentation.SmartReplyFragment"
+        android:name="id.neotica.smartreply.presentation.fragments.SmartReplyFragment"
         android:label="SmartReplyFragment" >
 
     </fragment>

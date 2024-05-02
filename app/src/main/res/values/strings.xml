@@ -31,7 +31,7 @@
     <string name="audio_classifier_failed">Audio Classifier failed to initialize. See error logs for details</string>
     <string name="mediapipe_audio">Audio Mediapipe</string>
     <string name="title_smartreply">Smart Reply</string>
-    
+
     <!--  Chat  -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="input_text_hint">Type a message</string>
@@ -43,4 +43,5 @@
     <string name="option_menu_generate_sensitive_chat_history">Generate sensitive chat history</string>
     <string name="clear_chat_history">Clear chat history</string>
     <string name="smart_chat">Smart Chat</string>
+    <string name="title_bert">Bert</string>
 </resources>

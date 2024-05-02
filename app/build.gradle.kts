@@ -46,7 +46,11 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
-    dynamicFeatures += setOf(":mediapipe", ":smartreply")
+    dynamicFeatures += setOf(
+        ":mediapipe",
+        ":smartreply",
+        ":bert"
+    )
 }
 
 dependencies {
@@ -69,20 +73,12 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite-task-vision-play-services:0.4.4") //for vision
     implementation("com.google.android.gms:play-services-tflite-java:16.1.0") //For Rice prediction
 
-
-
     val ktorVersion = "2.3.10"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("io.ktor:ktor-client-logging:$ktorVersion")
-
-    //Koin
-    val koinVersion = "3.3.2"
- /*   implementation ("io.insert-koin:koin-core:$koinVersion")
-    implementation("io.insert-koin:koin-android:$koinVersion")*/
-
 
     //MLKit
     implementation("com.google.mlkit:text-recognition:16.0.0") //Text recognition
