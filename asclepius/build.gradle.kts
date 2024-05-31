@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.safeArgs)
- //   id("com.google.devtools.ksp")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -43,11 +43,6 @@ android {
 dependencies {
 
     implementation(project(":core"))
-   // implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.appcompat)
-//    implementation(libs.material)
-//    implementation(libs.androidx.activity)
-//    implementation(libs.androidx.constraintlayout)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -58,11 +53,10 @@ dependencies {
 
     // uCrop
     implementation("com.github.yalantis:ucrop:2.2.8")
-//    implementation("com.github.yalantis:ucrop:2.2.8-native")
 
-/*    // Room
+    // Room
     implementation("androidx.room:room-runtime:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")*/
+    ksp("androidx.room:room-compiler:2.6.1")
 
     // Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
