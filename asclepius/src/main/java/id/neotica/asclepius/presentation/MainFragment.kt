@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -68,6 +69,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 } else showToast(getString(R.string.empty_image_warning))
             }
         }
+        setupToolbar()
     }
 
     private fun getPermission() {
@@ -147,16 +149,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun setupToolbar() {
+        (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar as Toolbar)
+
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-               //implement
+               menuInflater.inflate(R.menu.asclepius_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                TODO("Not yet implemented")
+                return when(menuItem.itemId) {
+                    R.id.chatHistory -> {true}
+                    else -> {false}
+                }
             }
-
         })
     }
 
