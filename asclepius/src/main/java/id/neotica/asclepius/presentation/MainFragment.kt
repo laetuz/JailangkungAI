@@ -174,6 +174,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             category = resultCategory
         )
         findNavController().navigate(action)
+        currentImageUri = null
     }
 
     private fun clearImage() {
