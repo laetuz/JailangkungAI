@@ -31,6 +31,24 @@
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="id.neotica.asclepius.presentation.HistoryFragment"
-        android:label="HistoryFragment" />
+        android:name="id.neotica.asclepius.presentation.history.HistoryFragment"
+        android:label="HistoryFragment" >
+        <action
+            android:id="@+id/action_historyFragment_to_historyResultFragment"
+            app:destination="@id/historyResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyResultFragment"
+        android:name="id.neotica.asclepius.presentation.history.HistoryResultFragment"
+        android:label="HistoryResultFragment" >
+        <argument
+            android:name="uri"
+            app:argType="string" />
+        <argument
+            android:name="threshold"
+            app:argType="string" />
+        <argument
+            android:name="category"
+            app:argType="string" />
+    </fragment>
 </navigation>
