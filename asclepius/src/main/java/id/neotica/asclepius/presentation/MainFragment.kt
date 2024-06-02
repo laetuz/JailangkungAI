@@ -159,8 +159,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when(menuItem.itemId) {
-                    R.id.chatHistory -> {true}
-                    else -> {false}
+                    R.id.chatHistory -> {
+                        findNavController().navigate(R.id.action_mainFragment_to_historyFragment)
+                        true
+                    }
+                    else -> { false }
                 }
             }
         })
