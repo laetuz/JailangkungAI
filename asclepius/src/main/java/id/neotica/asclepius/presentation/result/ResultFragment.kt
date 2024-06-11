@@ -44,12 +44,17 @@ class ResultFragment : Fragment(R.layout.fragment_result) {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.news.collect {
                     when(it) {
-                        is ApiResult.Empty -> {}
+                        is ApiResult.Empty -> {
+                            binding.pbMain.visibility = View.VISIBLE
+                        }
                         is ApiResult.Success -> {
+                            binding.pbMain.visibility = View.GONE
                             val newsList = it.data.articles
                             setupAdapter(newsList)
                         }
-                        is ApiResult.Error -> {}
+                        is ApiResult.Error -> {
+                            binding.pbMain.visibility = View.GONE
+                        }
                     }
                 }
             }
