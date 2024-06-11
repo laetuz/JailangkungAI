@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import id.neotica.asclepius.data.room.AscEntity
 import id.neotica.asclepius.databinding.ItemHistoryBinding
 
-
 class HistoryAdapter(
     private val onItemClick: (entity: AscEntity) -> Unit
 ) :

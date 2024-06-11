@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
-        android:name="id.neotica.asclepius.presentation.ResultFragment"
+        android:name="id.neotica.asclepius.presentation.result.ResultFragment"
         android:label="ResultFragment" >
         <argument
             android:name="uri"

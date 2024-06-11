@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.neotica.asclepius.R
 import id.neotica.asclepius.databinding.FragmentHistoryBinding
-import id.neotica.asclepius.presentation.ResultViewModel
 import id.neotica.asclepius.presentation.history.adapter.HistoryAdapter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
