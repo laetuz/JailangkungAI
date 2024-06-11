@@ -126,10 +126,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 context = requireContext(),
                 classifierListener = object: ImageClassifierHelper.ClassifierListener {
                     override fun onResults(results: List<Classifications>?) {
-                        // binding.progressIndicator.visibility = View.INVISIBLE
+                         binding.progressIndicator.visibility = View.INVISIBLE
 
                         Log.d("neolog", results.toString())
-                        results?.let { it ->
+                        results?.let {
                             if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
                                 val threshold = (it[0].categories[0].score * 100).toInt()
                                 val thresholdText = "$threshold %"
@@ -154,13 +154,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-               menuInflater.inflate(R.menu.asclepius_menu, menu)
+                menu.clear()
+                menuInflater.inflate(R.menu.asclepius_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when(menuItem.itemId) {
-                    R.id.chatHistory -> {true}
-                    else -> {false}
+                    R.id.chatHistory -> {
+                        findNavController().navigate(R.id.action_mainFragment_to_historyFragment)
+                        true
+                    }
+                    else -> { false }
                 }
             }
         })

@@ -6,4 +6,6 @@ class AscDaoInteractor(private val ascDao: AscDaoRepoImpl) {
     fun addHistory(item: AscEntity) {
         ascDao.addHistory(item)
     }
+
+    fun getHistory() = ascDao.getHistory()
 }

@@ -1,4 +1,4 @@
-package id.neotica.asclepius.presentation
+package id.neotica.asclepius.presentation.result
 
 import android.net.Uri
 import android.os.Bundle
@@ -8,9 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import id.neotica.asclepius.R
+import id.neotica.asclepius.data.remote.ApiResult
+import id.neotica.asclepius.data.remote.response.Articles
 import id.neotica.asclepius.data.room.AscEntity
 import id.neotica.asclepius.databinding.FragmentResultBinding
+import id.neotica.asclepius.presentation.result.adapter.NewsAdapter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,6 +41,24 @@ class ResultFragment : Fragment(R.layout.fragment_result) {
             tvPercentage.text = args.threshold
             resultText.text = args.category
 
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.news.collect {
+                    when(it) {
+                        is ApiResult.Empty -> {
+                            binding.pbMain.visibility = View.VISIBLE
+                        }
+                        is ApiResult.Success -> {
+                            binding.pbMain.visibility = View.GONE
+                            val newsList = it.data.articles
+                            setupAdapter(newsList)
+                        }
+                        is ApiResult.Error -> {
+                            binding.pbMain.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+
             lifecycleScope.launch {
                 viewModel.addHistory(
                     AscEntity(
@@ -45,6 +67,9 @@ class ResultFragment : Fragment(R.layout.fragment_result) {
                         percentage = args.threshold
                     )
                 )
+            }
+            lifecycleScope.launch {
+                viewModel.getNews()
             }
 
         }
@@ -59,6 +84,27 @@ class ResultFragment : Fragment(R.layout.fragment_result) {
             findNavController().navigateUp()
         }
 
+    }
+
+    private fun setupAdapter(list: ArrayList<Articles>) {
+        val adapter = NewsAdapter {
+            /*val action = HistoryFragmentDirections.actionHistoryFragmentToHistoryResultFragment(
+                uri = it.title,
+                threshold = it.percentage,
+                category = it.category
+            )
+            findNavController().navigate(action)*/
+        }
+        binding.rvNews.apply {
+            layoutManager = LinearLayoutManager(context)
+            this.adapter = adapter
+            setHasFixedSize(true)
+            lifecycleScope.launch {
+                adapter.submitList(list)
+            }
+
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onDestroyView() {
