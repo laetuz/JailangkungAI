@@ -1,19 +1,17 @@
 [versions]
-agp = "8.4.2"
+agp = "8.5.1"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
 appcompat = "1.7.0"
 material = "1.12.0"
-activity = "1.8.0"
+activity = "1.9.0"
 constraintlayout = "2.1.4"
 tensorflowLiteSupport = "0.4.4"
 tensorflowLiteMetadata = "0.4.4"
-annotation = "1.7.1"
 ksp = "2.0.0-1.0.21"
-serialization = "1.8.10"
 navigation = "2.7.7"
 koinVersion = "3.3.2"
 
@@ -28,7 +26,6 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 tensorflow-lite-support = { group = "org.tensorflow", name = "tensorflow-lite-support", version.ref = "tensorflowLiteSupport" }
 tensorflow-lite-metadata = { group = "org.tensorflow", name = "tensorflow-lite-metadata", version.ref = "tensorflowLiteMetadata" }
-androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation"}
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koinVersion"}
@@ -40,7 +37,6 @@ jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "k
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 androidDynamicFeature = { id = "com.android.dynamic-feature", version.ref = "agp" }
 devToolsKsp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
-kotlinSerialization = { id = "plugin.serialization", version.ref = "serialization"}
 safeArgs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 
 
